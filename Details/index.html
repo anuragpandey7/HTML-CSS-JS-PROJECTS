@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <div id="container">
+            <div><a href="./index.html">Home</a></div>
+            <div><a href="./registered.html">Registered</a></div>
+            <div><a href="./interested.html">Interested</a></div>
+        </div>
+    </nav>
+    <form id="form">
+        <h1>Enter Your Application Details</h1>
+        <input type="text" name="name" id="name" placeholder="Enter your name"><br>
+        <input type="email" name="email" id="email" placeholder="Enter Your email address"><br>
+        <input type="text" name="country" id="country" placeholder="Country"><br>
+        <input type="number" name="postalZip" id="zip" placeholder="Enter your zip-code"><br>
+        <input type="submit" value="Submit" id="submit">
+    </form>
+
+
+</body>
+<script>
+    // let registerData = [
+    //         {
+    //             "name": "Sonya Mullen",
+    //             "email": "nibh@hotmail.ca",
+    //             "country": "United States",
+    //             "postalZip": "7916"
+    //         },
+    //         {
+    //             "name": "Wyatt Rodgers",
+    //             "email": "penatibus.et@outlook.org",
+    //             "country": "Sweden",
+    //             "postalZip": "46634"
+    //         },
+    //         {
+    //             "name": "Daria Hays",
+    //             "email": "lorem.auctor@google.com",
+    //             "country": "Brazil",
+    //             "postalZip": "252832"
+    //         },
+    //         {
+    //             "name": "Haviva Bolton",
+    //             "email": "auctor@google.edu",
+    //             "country": "Spain",
+    //             "postalZip": "386061"
+    //         },
+    //         {
+    //             "name": "Sara Robles",
+    //             "email": "gravida.praesent.eu@yahoo.com",
+    //             "country": "South Africa",
+    //             "postalZip": "G53 9SG"
+    //         }
+    //     ];
+
+        document.querySelector("form").addEventListener("submit", infoDetail)
+        let dataArr = JSON.parse(localStorage.getItem("dataList")) || [];
+
+        function infoDetail(event){
+            event.preventDefault();
+
+            let dataObj = {
+                name: document.querySelector("#name").value,
+                email: document.querySelector("#email").value,
+                country: document.querySelector("#country").value,
+                postalZip: document.querySelector("#zip").value
+            }
+
+            dataArr.push(dataObj);
+            localStorage.setItem("dataList",JSON.stringify(dataArr));
+            
+            form.reset();
+            alert("Data Submitted")
+        }
+
+        
+
+        
+</script>
+</html>

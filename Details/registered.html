@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./commonStyle.css">
+</head>
+<body>
+    <nav>
+        <div id="container">
+            <div><a href="./index.html">Home</a></div>
+            <div><a href="./registered.html">Registered</a></div>
+            <div><a href="./interested.html">Interested</a></div>
+        </div>
+    </nav>
+
+    <select name="" id="sortByName">
+        <option value="Ascending">Ascending</option>
+        <option value="Descending">Descending</option>
+    </select>
+
+    <select name="" id="byCountry">
+        <option value="Country">Country</option>
+    </select>
+    
+    <main>
+        <table>
+            <thead>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Country</th>
+                <th>PostalZip</th>
+                <th>Add to Interested</th>
+            </thead>
+            <tbody>
+            
+            </tbody>
+        </table>
+    </main>
+</body>
+<script>
+    let dataArr = JSON.parse(localStorage.getItem("dataList")) || [];
+    let interestedArr = JSON.parse(localStorage.getItem("interestedList"))||[];
+    
+    document.querySelector("#sortByName")
+    .addEventListener("change",sortByName)
+
+    document.querySelector("#byCountry")
+    .addEventListener("change",filterChange);
+
+    displayTable(dataArr)
+
+    function displayTable(dataArr){
+        document.querySelector("tbody").innerHTML = "";
+        dataArr.forEach(function (elem, index) {
+            let tr = document.createElement("tr");
+            let col1 = document.createElement("td");
+            col1.innerText = elem.name;
+            let col2 = document.createElement("td");
+            col2.innerText = elem.email;
+            let col3 = document.createElement("td");
+            col3.innerText = elem.country
+            let col4 = document.createElement("td");
+            col4.innerText = elem.postalZip;
+            let col5 = document.createElement("td");
+            col5.innerText = "Add to Interested";
+            col5.style.color = "red"
+            col5.addEventListener("click", function () {
+                addInInterested(elem, index)
+            })
+
+            tr.append(col1, col2, col3, col4, col5);
+
+            document.querySelector("tbody").append(tr);
+
+
+        })
+        function addInInterested(elem, index) {
+            interestedArr.push(elem);
+            dataArr.splice(index,1);
+            localStorage.setItem("dataList", JSON.stringify(dataArr))
+            localStorage.setItem("interestedList", JSON.stringify(interestedArr));
+            displayTable(dataArr);
+        }
+
+    }
+    
+    function sortByName(){
+        let clickedVal = document.querySelector("#sortByName").value;
+
+        if(clickedVal == "Ascending"){
+            dataArr.sort(function(a,b){
+                let x = a.name.toUpperCase();
+                let y = b.name.toUpperCase();
+
+                if (x > y) return 1;
+                if (x < y) return -1;
+                return 0;
+            })
+            displayTable(dataArr)
+        }
+        if(clickedVal == "Descending")
+        {
+            dataArr.sort(function(a,b){
+                let x = a.name.toUpperCase();
+                let y = b.name.toUpperCase();
+
+                if(x > y) return -1;
+                if(x < y) return 1;
+                return 0;
+            })
+            displayTable(dataArr);
+        }
+    }
+
+ function filterChange(){
+    let country = document.querySelector("byCountry").value;
+
+    let filterList = localStorage.setItem("filterList",JSON.stringify(country));
+ }
+
+    
+</script>
+</html>

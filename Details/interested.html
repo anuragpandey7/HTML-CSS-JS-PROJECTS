@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./commonStyle.css">
+</head>
+<body>
+
+    <nav>
+        <div id="container">
+            <div><a href="./index.html">Home</a></div>
+            <div><a href="./registered.html">Registered</a></div>
+            <div><a href="./interested.html">Interested</a></div>
+        </div>
+    </nav>
+    <main>
+        <table>
+            <thead>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Country</th>
+                <th>PostalZip</th>
+                <th>Delete</th>
+            </thead>
+            <tbody>
+            
+            </tbody>
+        </table>
+    </main>
+</body>
+<script>
+    let interestedArr = JSON.parse(localStorage.getItem("interestedList")) || [];
+
+    displayTable(interestedArr);
+
+    function displayTable(){
+        document.querySelector('tbody').innerHTML = "";
+        interestedArr.forEach(function (elem, index) {
+            let tr = document.createElement("tr");
+            let col1 = document.createElement("td");
+            col1.innerText = elem.name;
+            let col2 = document.createElement("td");
+            col2.innerText = elem.email;
+            let col3 = document.createElement("td");
+            col3.innerText = elem.country;
+            let col4 = document.createElement("td");
+            col4.innerText = elem.postalZip;
+            let col5 = document.createElement("td");
+            col5.innerText = "Delete"
+            col5.style.color = "red"
+            col5.addEventListener("click", function () {
+                deleteInterested(elem, index)
+            })
+
+            tr.append(col1, col2, col3, col4, col5);
+
+            document.querySelector("tbody").append(tr);
+        })
+    }
+    
+    function deleteInterested(elem,index){
+        interestedArr.splice(index,1);
+        localStorage.setItem("interestedList",JSON.stringify(interestedArr));
+        displayTable(interestedArr);
+    }
+</script>
+</html>
